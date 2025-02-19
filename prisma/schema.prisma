@@ -20,8 +20,8 @@ model User {
 
 model Task {
   id          Int      @id @default(autoincrement())
-  owner       User     @relation(fields: [ownerEmail], references: [email])
-  ownerEmail  String   @unique
+  owner       User?     @relation(fields: [ownerEmail], references: [email])
+  ownerEmail  String?   @unique
   createdAt   DateTime @default(now())
   completedAt DateTime @updatedAt
   completed   Boolean  @default(false)

@@ -1,4 +1,5 @@
 "use client";
+import { get } from 'http';
 /**
  * @file contain the parformance of each team member
  * @param {object} data - The data object that would be used to populate the chart it is current templorary
@@ -7,19 +8,24 @@
  * @author "Unigwe Emmanuel"
  */
 
-import React from 'react'
+import React, { useEffect } from 'react'
 import { BarChart, Bar, XAxis, YAxis, ResponsiveContainer, CartesianGrid, Tooltip } from 'recharts'
-import List from 'typing'
+import getTeamMemberAndPerformance from '@/app/dashboard/actions/getTeamMemberAndPerformance'
+import { TeamPerformance } from '@/app/dashboard/types';
+
 
 function EachTeammemberPerformence() {
-    const data = [
-        { name: 'Emma', performance: 10 },
-        { name: 'Dennis', performance: 50 },
-        { name: 'Mayor', performance: 60 },
-        { name: 'Mary', performance: 70 },
-        { name: 'Pretty', performance: 80 },
-        { name: 'Unique', performance: 90 },
-    ]
+    const [data, setData] = React.useState<TeamPerformance[]>([])
+    useEffect(() => {
+        const callGetTeamMemberAndPerformance = async () => {
+            const data = await getTeamMemberAndPerformance()
+            setData(data)
+        }
+
+        callGetTeamMemberAndPerformance()
+    }, [])
+
+
     const CustomTooltip = ({ active, payload, label, percentageChange} : {active:string, payload:List, }) => {
         if (active) {
             return (
